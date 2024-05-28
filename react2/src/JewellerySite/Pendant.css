@@ -23,4 +23,28 @@ h1{
     border: 1px solid black;
     margin-left: 50px;
 }
- 
+ .navbar-container {
+  position: relative;
+}
+
+.search-bar {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+}
+
+.search-bar input[type="text"] {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 200px;
+  font-size: 14px;
+}
+
+/* Additional styling for responsiveness */
+@media screen and (max-width: 768px) {
+  .search-bar {
+    right: 10px;
+  }
+}

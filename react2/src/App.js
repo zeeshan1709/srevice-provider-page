@@ -13,7 +13,15 @@ import RingProducts from './JewellerySite/RingProducts';
 import TennisBraceletProducts from './JewellerySite/TennisBraceletProducts';
 import PendantProducts from './JewellerySite/PendantProducts';
 import Certificate from './JewellerySite/Certificate';
-
+import SignIn from './JewellerySite/SignIn';
+import Registration from './JewellerySite/Registration'
+import Wishlist from './JewellerySite/Wishlist/Wishlist';
+import About from './JewellerySite/Info/About';
+import Return from './JewellerySite/Info/Return';
+import ShippingPolicy from './JewellerySite/Info/ShippingPolicy'
+import BuybackPolicy from './JewellerySite/Info/BuybackPolicy'
+import PrivacyPolicy from './JewellerySite/Info/PrivacyPolicy'
+import TermsConditons from './JewellerySite/Info/TermsCondition'
 
 
 
@@ -24,8 +32,10 @@ const App = () => {
     return storedCart ? JSON.parse(storedCart) : [];
   });
   const [cartCount, setCartCount] = useState(0);
+  
 
- 
+
+  // Save cart data to local storage whenever it changes
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
   }, [cart]);
@@ -45,14 +55,15 @@ const App = () => {
     const existingProductIndex = cart.findIndex(item => item.id === product.id);
 
     if (existingProductIndex !== -1) {
-     
+      // If the product exists, update its quantity
       const updatedCart = [...cart];
-      updatedCart[existingProductIndex].quantity += 1; 
+      updatedCart[existingProductIndex].quantity += 1; // Assuming each product object has a 'quantity' property
       setCart(updatedCart);
     } else {
-      
-      setCart([...cart, {...product, quantity: 1}]); 
+      // If the product is not in the cart, add it
+      setCart([...cart, {...product, quantity: 1}]); // Assuming each product object has a 'quantity' property
   
+      // Update the cart count only if a new product is added
       const newCartCount = cartCount + 1;
       setCartCount(newCartCount);
       localStorage.setItem('cartCount', newCartCount);
@@ -74,9 +85,24 @@ const App = () => {
     localStorage.setItem('cartCount', newCartCount);
   };
  
-  
 
- 
+  const [wishlistItems, setWishlistItems] = useState(
+    JSON.parse(localStorage.getItem('wishlistItems')) || []
+  );
+
+  
+  useEffect(() => {
+    localStorage.setItem('wishlistItems', JSON.stringify(wishlistItems));
+  }, [wishlistItems]);
+
+  const addToWishlist = (product) => {
+    setWishlistItems([...wishlistItems, product]);
+  };
+
+  const removeFromWishlist = (productId) => {
+    const updatedWishlist = wishlistItems.filter(item => item.id !== productId);
+    setWishlistItems(updatedWishlist);
+  };
 
 
   const productsPage1 = [
@@ -659,7 +685,7 @@ const App = () => {
       description: "Elegant pendant featuring a halo of diamonds around the center stone.",
       price: 1999.99,
       imageUrl: "https://i.pinimg.com/564x/48/62/26/4862261df94cc675cd9c8ab4162f38eb.jpg"
-    }
+  }
 
   ];
   return (
@@ -672,17 +698,25 @@ const App = () => {
           <Route path="/collection" element={<Collection />} /> 
           <Route path="/true" element={<True />} /> 
           <Route path="/certificates" element={<CertificateSlider />} />
-          <Route path="/bracelet" element={<BraceletProducts products={productsPage1} addToCart={addToCart} />} />
-          <Route path="/earrings" element={<EarringProducts products={productsPage2} addToCart={addToCart} />} />
-          <Route path="/mens-collection" element={<MensCollectionProducts products={productsPage3} addToCart={addToCart} />} />
-          <Route path="/rings" element={<RingProducts products={productsPage5} addToCart={addToCart} />} />
-          <Route path="/tennis-bracelets" element={<TennisBraceletProducts products={productsPage4} addToCart={addToCart} />} />
-          <Route path="/pendant" element={<PendantProducts products={productsPage6} addToCart={addToCart} />} />
+          <Route path="/bracelet" element={<BraceletProducts products={productsPage1} addToCart={addToCart} addToWishlist={addToWishlist} />} />
+          <Route path="/earrings" element={<EarringProducts products={productsPage2} addToCart={addToCart} addToWishlist={addToWishlist}/>} />
+          <Route path="/mens-collection" element={<MensCollectionProducts products={productsPage3} addToCart={addToCart} addToWishlist={addToWishlist}/>} />
+          <Route path="/rings" element={<RingProducts products={productsPage5} addToCart={addToCart} addToWishlist={addToWishlist} />}  />
+          <Route path="/tennis-bracelets" element={<TennisBraceletProducts products={productsPage4} addToCart={addToCart} addToWishlist={addToWishlist}/>} />
+          <Route path="/pendant" element={<PendantProducts products={productsPage6} addToCart={addToCart} addToWishlist={addToWishlist}/>} />
           <Route path="/cart" element={<CartPage cart={cart} removeFromCart={removeFromCart}/>} />
           <Route path="/certificate" element={<Certificate/>} />
-         
-        </Routes>
-        
+          <Route path="/signin" element={<SignIn/>} />
+          <Route path="/registration" element={<Registration/>} />
+          <Route path="/wishlist" element={<Wishlist wishlistItems={wishlistItems} removeFromWishlist={removeFromWishlist} />} />
+          <Route path="/about" element={<About/>} />
+          <Route path="/return-policy" element={<Return/>} />
+          <Route path="/shipping-policy" element={<ShippingPolicy/>} />
+          <Route path="/buyback-policy" element={<BuybackPolicy/>} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy/>} />
+          <Route path="/terms-conditions" element={<TermsConditons/>}/>
+           
+      </Routes> 
       </div>
     </Router>
    
