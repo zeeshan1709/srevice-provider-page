@@ -1,0 +1,42 @@
+/* Navbar.css */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    background-color: #003366;
+    padding: 10px;
+    color: white;
+   
+}
+
+.navbar .search-container {
+    flex-grow: 1;
+   
+}
+
+.navbar input[type="text"] {
+    padding: 5px;
+    border: none;
+    border-radius: 3px;
+}
+
+.navbar .menu {
+    display: flex;
+    gap: 20px;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 3px;
+    transition: background-color 0.3s;
+}
+
+.navbar a:hover {
+    background-color: #00509e;
+}
